@@ -1,6 +1,10 @@
 export interface RegisterForm {
-    nome?: String,
-    email?: `${string}@${string}.${string}`,
-    password?: String,
-    confirm_password?: String
+    name?: string,
+    email?: `${string}@${string}.${string}` | null,
+    password?: string,
+    password_confirmation?: string
+}
+
+export async function register(formData : RegisterForm) {
+
 }

@@ -11,14 +11,4 @@ Route::get('/teste', function () {
     return Inertia::render('Test');
 })->name('teste');
 
-Route::get('/signup', function () {
-    return Inertia::render('Signup');
-})->name('signup.index');
-
-Route::post('/signup', function () {
-    return Inertia::render('Signup');
-})->name('signup.store');
-
-Route::get('/login', function () {
-    return Inertia::render('Login');
-})->name('login.index');
+require __DIR__ . '/auth/auth.php';

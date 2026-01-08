@@ -2,14 +2,20 @@
     import { reactive, ref } from 'vue';
     import Input from '../components/ui/Input.vue';
     import { RegisterForm } from '../services/auth/register';
-    import { Link } from '@inertiajs/vue3';
+    import { Form, Link} from '@inertiajs/vue3';
+    import axios from 'axios';
 
     const formData : RegisterForm = reactive({})
 
     const form = ref();
 
-    function submit () {
-        console.log(formData)
+    // const page = usePage();
+
+    async function submit () {
+        
+        const response = await axios.post(route('signup.store'), formData);
+
+        console.log(response);
     }
 
 </script>
@@ -24,12 +30,12 @@
                     <p></p>
                 </div>
                 
-                <form @submit.prevent="submit" :ref="form" method="POST" class="flex flex-col space-y-5">
+                <Form @submit.prevent="submit" :ref="form" method="POST" class="flex flex-col space-y-5">
                     <div class="flex flex-col gap-y-2">
                         <label for="" class="text-sm">Nome Completo</label>
                         <div class="relative">
                             <i className="fa-regular fa-user absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                            <Input class="pl-10 h-12 bg-card border-border" v-model="formData.nome" name="name" placeholder="Seu nome"></Input>
+                            <Input class="pl-10 h-12 bg-card border-border" v-model="formData.name" name="name" placeholder="Seu nome"></Input>
                         </div>
                     </div>
 
@@ -45,7 +51,7 @@
                         <label for="" class="text-sm">Senha</label>
                         <div class="relative">
                             <i className="fa-regular fa-envelope absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                            <Input class="pl-10 h-12 bg-card border-border" v-model="formData.password" type="password" placeholder="minimo 8 caracteres"></Input>
+                            <Input class="pl-10 h-12 bg-card border-border" v-model="formData.password" name="password" type="password" placeholder="minimo 8 caracteres"></Input>
                         </div>
                     </div>
 
@@ -53,7 +59,7 @@
                         <label for="" class="text-sm">Confirmação de Senha</label>
                         <div class="relative">
                             <i className="fa-regular fa-envelope absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                            <Input class="pl-10 h-12 bg-card border-border" v-model="formData.confirm_password" type="password" placeholder="Confirme sua Senha"></Input>
+                            <Input class="pl-10 h-12 bg-card border-border" v-model="formData.password_confirmation" name="password_confirmation" type="password" placeholder="Confirme sua Senha"></Input>
                         </div>
                     </div>
 
@@ -63,7 +69,7 @@
                     </button>
                    
                     <p class="text-center">Já tem uma conta? <Link :href="route('login.index')" class="gradient-text hover:underline hover:decoration-orange-600 ">Entrar</Link></p>
-                </form>
+                </Form>
             </div> 
         </div>
         <div class="hidden w-1/2 lg:flex items-center justify-center gradient-bg p-12">

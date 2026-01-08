@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { Link } from '@inertiajs/vue3';
+    import { Form, Link } from '@inertiajs/vue3';
     import Input from '../components/ui/Input.vue';
 
 </script>
@@ -21,7 +21,7 @@
                     <p></p>
                 </div>
                 
-                <form method="POST" class="flex flex-col space-y-5">
+                <Form method="POST"  class="flex flex-col space-y-5">
 
                     <div class="flex flex-col gap-y-2">
                         <label for="" class="text-sm">Email</label>
@@ -45,7 +45,7 @@
                     </button>
                    
                     <p class="text-center">Não tem uma conta? <Link :href="route('signup.index')" class="gradient-text hover:underline hover:decoration-orange-600 ">Cadastre-se</Link></p>
-                </form>
+                </Form>
             </div> 
         </div>
         
