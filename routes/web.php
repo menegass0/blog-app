@@ -13,10 +13,12 @@ Route::get('/teste', function () {
 
 Route::get('/signup', function () {
     return Inertia::render('Signup');
-})->name('signup');
+})->name('signup.index');
 
 Route::post('/signup', function () {
-    dd('aaaaaaaa');
-
     return Inertia::render('Signup');
 })->name('signup.store');
+
+Route::get('/login', function () {
+    return Inertia::render('Login');
+})->name('login.index');

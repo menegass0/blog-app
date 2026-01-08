@@ -2,6 +2,7 @@
     import { reactive, ref } from 'vue';
     import Input from '../components/ui/Input.vue';
     import { RegisterForm } from '../services/auth/register';
+    import { Link } from '@inertiajs/vue3';
 
     const formData : RegisterForm = reactive({})
 
@@ -56,12 +57,12 @@
                         </div>
                     </div>
 
-                    <button class="btn my-6 gradient-bg flex gap-3 text-white justify-center items-center py-3 rounded-lg w-full whitespace-nowrap">
+                    <button class="my-6 gradient-bg flex gap-3 text-white justify-center items-center py-3 rounded-lg w-full whitespace-nowrap">
                         Criar Conta
                         <i class="fas fa-arrow-right"></i>
                     </button>
                    
-                    <p class="text-center">Já tem uma conta? <a href="" class="gradient-text hover:underline hover:decoration-orange-600 ">Entrar</a></p>
+                    <p class="text-center">Já tem uma conta? <Link :href="route('login.index')" class="gradient-text hover:underline hover:decoration-orange-600 ">Entrar</Link></p>
                 </form>
             </div> 
         </div>
