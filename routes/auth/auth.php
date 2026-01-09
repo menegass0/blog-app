@@ -1,12 +1,11 @@
 <?php
 
-use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
-use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/signup', [RegisterController::class, 'index'])->name('signup.index');
+Route::get('/signup', [RegisterController::class, 'index'])->name('signup.index')->middleware('redirectFeed');
 
-Route::post('/signup', [RegisterController::class, 'register'])->name('signup.store');
+Route::post('/signup', [RegisterController::class, 'register'])->name('signup.store')->middleware('redirectFeed');
 
-Route::get('/login', [AuthController::class, 'LoginIndex'])->name('login.index');
+Route::get('/login', [LoginController::class, 'index'])->name('login.index')->middleware('redirectFeed');

@@ -1,22 +1,30 @@
 <script setup lang="ts">
     import { reactive, ref } from 'vue';
     import Input from '../components/ui/Input.vue';
+    import Button from '../components/ui/Button.vue';
     import { RegisterForm } from '../services/auth/register';
     import { Form, Link} from '@inertiajs/vue3';
     import axios from 'axios';
+    import FormErrors from '../components/ui/FormErrors.vue';
 
     const formData : RegisterForm = reactive({})
 
     const form = ref();
 
-    // const page = usePage();
+    const errors = ref(null);
 
-    async function submit () {
-        
-        const response = await axios.post(route('signup.store'), formData);
-
-        console.log(response);
-    }
+    const submitForm = async () => {
+        try {
+            await axios.post(route('signup.store'), formData);
+            alert('Post created successfully!');
+        } catch (error) {
+            if (error.response && error.response.status === 422) {
+                errors.value = error.response.data.errors;
+            } else {
+                console.error("An unexpected error occurred:", error);
+            }
+        }
+    };
 
 </script>
 
@@ -29,8 +37,12 @@
                     <p class="text-muted-foreground">Junte-se à nossa comunidade hoje</p>   
                     <p></p>
                 </div>
+
+                <div v-if="errors">
+                    <FormErrors class="mb-6 items-normal" :errors="errors" />
+                </div>
                 
-                <Form @submit.prevent="submit" :ref="form" method="POST" class="flex flex-col space-y-5">
+                <Form @submit.prevent="submitForm" :action="route('signup.store')" :ref="form" method="POST" class="flex flex-col space-y-5">
                     <div class="flex flex-col gap-y-2">
                         <label for="" class="text-sm">Nome Completo</label>
                         <div class="relative">
@@ -62,12 +74,12 @@
                             <Input class="pl-10 h-12 bg-card border-border" v-model="formData.password_confirmation" name="password_confirmation" type="password" placeholder="Confirme sua Senha"></Input>
                         </div>
                     </div>
-
-                    <button class="my-6 gradient-bg flex gap-3 text-white justify-center items-center py-3 rounded-lg w-full whitespace-nowrap">
+                   
+                    <Button class="gradient-bg mt-2 gap-3 "  >
                         Criar Conta
                         <i class="fas fa-arrow-right"></i>
-                    </button>
-                   
+                    </Button>
+
                     <p class="text-center">Já tem uma conta? <Link :href="route('login.index')" class="gradient-text hover:underline hover:decoration-orange-600 ">Entrar</Link></p>
                 </Form>
             </div> 

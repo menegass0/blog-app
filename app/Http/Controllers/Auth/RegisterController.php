@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSignupRequest;
-use Illuminate\Http\Request;
+use App\Services\AuthService;
 use Inertia\Inertia;
 
 class RegisterController extends Controller
@@ -16,12 +16,8 @@ class RegisterController extends Controller
 
     public function register(StoreSignupRequest $request)
     {
+        AuthService::register($request);
 
-        try {
-            //code...
-        } catch (\Throwable $th) {
-            //throw $th;
-        }
-        // return json_encode(['teste' => '123']);
+        return to_route('feed.index');
     }
 }

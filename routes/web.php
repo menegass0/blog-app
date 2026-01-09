@@ -7,6 +7,10 @@ Route::get('/', function () {
     return Inertia::render('Index');
 })->name('index');
 
+Route::get('/feed', function () {
+    return Inertia::render('Feed');
+})->name('feed.index');
+
 Route::get('/teste', function () {
     return Inertia::render('Test');
 })->name('teste');

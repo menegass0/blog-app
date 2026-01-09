@@ -9,7 +9,7 @@
 </script>
 
 <template>
-    <Card class="flex flex-col items-center p-5 bg-white rounded-lg shadow-soft">
+    <Card class="flex-col bg-white ">
         <div class="text-2xl p-4 gradient-bg rounded-lg mb-6">
             <i class="text-white" :class="[icon]" />
         </div>
