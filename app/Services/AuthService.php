@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Requests\StoreLoginRequest;
 use App\Http\Requests\StoreSignupRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -23,5 +24,20 @@ class AuthService
         Auth::login($user);
 
         DB::commit();
+    }
+
+    public static function login(StoreLoginRequest $request)
+    {
+        if (Auth::attempt($request->all())) {
+            $request->session()->regenerate();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function logout()
+    {
+        Auth::logout();
     }
 }

@@ -39,7 +39,18 @@
                 </div>
 
                 <div v-if="errors">
-                    <FormErrors class="mb-6 items-normal" :errors="errors" />
+                    <FormErrors class="mb-6 items-normal" >
+                        <ul>
+                            <li class="list-disc ms-3" v-for="(value, key, index) in errors" :key="key">
+                                <div v-if="typeof value !== 'object' && value.length == 1">
+                                    {{ value[0] }}
+                                </div>
+                                <li v-else="" v-for="(value2, key2, index2) in value" :key="key">
+                                    {{ value2 }}
+                                </li>
+                            </li>
+                        </ul>
+                    </FormErrors>
                 </div>
                 
                 <Form @submit.prevent="submitForm" :action="route('signup.store')" :ref="form" method="POST" class="flex flex-col space-y-5">

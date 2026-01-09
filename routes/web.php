@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -9,7 +10,7 @@ Route::get('/', function () {
 
 Route::get('/feed', function () {
     return Inertia::render('Feed');
-})->name('feed.index');
+})->name('feed.index')->middleware('loggedIn');
 
 Route::get('/teste', function () {
     return Inertia::render('Test');

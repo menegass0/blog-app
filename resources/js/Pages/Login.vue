@@ -1,6 +1,25 @@
 <script setup lang="ts">
-    import { Form, Link } from '@inertiajs/vue3';
+    import { Form, Link, useForm } from '@inertiajs/vue3';
     import Input from '../components/ui/Input.vue';
+    import { ref } from 'vue';
+    import { LoginForm } from '../services/auth/login';
+    import Button from '../components/ui/Button.vue';
+    import FormErrors from '../components/ui/FormErrors.vue';
+
+    const formData = useForm<LoginForm>({
+        email: null,
+        password: null
+    })
+
+    const form = ref();
+
+    const submitForm = () => {
+        formData.post(route('login.store'), {
+            onError: () => {
+                formData.reset('password')
+            }
+        })
+    }
 
 </script>
 
@@ -20,14 +39,24 @@
                     <p class="text-muted-foreground">Junte-se à nossa comunidade hoje</p>   
                     <p></p>
                 </div>
+
+                <div v-if="formData.errors.email">
+                    <FormErrors class="mb-6 items-normal" >
+                        <ul>
+                            <li class="list-disc ms-3" v-for="(value, key, index) in formData.errors" :key="key">
+                                {{ value }}
+                            </li>
+                        </ul>
+                    </FormErrors>
+                </div>
                 
-                <Form method="POST"  class="flex flex-col space-y-5">
+                <Form method="POST" :action="route('login.store')" :ref="form" @submit.prevent="submitForm" class="flex flex-col space-y-5">
 
                     <div class="flex flex-col gap-y-2">
                         <label for="" class="text-sm">Email</label>
                         <div class="relative">
                             <i className="fa-regular fa-envelope absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                            <Input class="pl-10 h-12 bg-card border-border" type="email" name="email" placeholder="seu@email.com"></Input>
+                            <Input class="pl-10 h-12 bg-card border-border" type="email" v-model="formData.email" name="email" placeholder="seu@email.com"></Input>
                         </div>
                     </div>
 
@@ -35,14 +64,15 @@
                         <label for="" class="text-sm">Senha</label>
                         <div class="relative">
                             <i className="fa-regular fa-envelope absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                            <Input class="pl-10 h-12 bg-card border-border" type="password" placeholder="minimo 8 caracteres"></Input>
+                            <Input class="pl-10 h-12 bg-card border-border" type="password" v-model="formData.password" placeholder="minimo 8 caracteres"></Input>
                         </div>
                     </div>
 
-                    <button class="my-6 gradient-bg flex gap-3 text-white justify-center items-center py-3 rounded-lg w-full whitespace-nowrap">
+                    <Button class="gradient-bg mt-2 gap-3 ">
                         Criar Conta
                         <i class="fas fa-arrow-right"></i>
-                    </button>
+                    </Button>
+                        
                    
                     <p class="text-center">Não tem uma conta? <Link :href="route('signup.index')" class="gradient-text hover:underline hover:decoration-orange-600 ">Cadastre-se</Link></p>
                 </Form>

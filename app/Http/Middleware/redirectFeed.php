@@ -18,6 +18,8 @@ class redirectFeed
     {
         if (Auth::check()) {
             return to_route('feed.index');
+        } else {
+            return $next($request);
         }
     }
 }
