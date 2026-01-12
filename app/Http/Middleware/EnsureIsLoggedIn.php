@@ -17,7 +17,7 @@ class EnsureIsLoggedIn
     public function handle(Request $request, Closure $next): Response
     {
         if (!Auth::check()) {
-            return redirect()->intended(route('feed.index'));
+            return redirect()->intended(route('login.index'));
         } else {
             return $next($request);
         }

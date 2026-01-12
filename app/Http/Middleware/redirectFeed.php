@@ -17,7 +17,7 @@ class redirectFeed
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::check()) {
-            return to_route('feed.index');
+            return redirect()->intended(route('feed.index'));
         } else {
             return $next($request);
         }
