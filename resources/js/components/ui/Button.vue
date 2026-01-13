@@ -13,7 +13,7 @@ import { useVModel } from '@vueuse/core';
 </script>
 
 <template>
-    <button :disabled="props.disabled" :class="cn('py-3 cursor-pointer flex text-white justify-center items-center rounded-lg whitespace-nowrap disabled:cursor-default disabled:scale-98 hover:scale-102 ease-out duration-300')">
+    <button :disabled="props.disabled" :class="cn('py-3 cursor-pointer flex justify-center items-center rounded-lg whitespace-nowrap disabled:cursor-default disabled:scale-98 hover:scale-102 ease-out duration-300')">
         <slot />
     </button>
 </template>

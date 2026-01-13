@@ -86,7 +86,7 @@
                         </div>
                     </div>
                    
-                    <Button class="gradient-bg mt-2 gap-3 "  >
+                    <Button class="gradient-bg mt-2 gap-3 text-white"  >
                         Criar Conta
                         <i class="fas fa-arrow-right"></i>
                     </Button>

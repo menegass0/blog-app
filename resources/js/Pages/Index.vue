@@ -38,8 +38,8 @@
         <div class="container  px-6 py-20 mx-auto">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <CardIndexInfo class="teste" icon="fas fa-users" title="Conecte-se" desc="Encontre pessoas com interesses em comum"/>
-                <CardIndexInfo class="teste" icon="fa-regular fa-comments" title="Conecte-se" desc="Compartilhe ideias e histórias"/>
-                <CardIndexInfo class="teste" icon="fa-regular fa-heart" title="Conecte-se" desc="Curta, comente e republicar conteúdos"/>
+                <CardIndexInfo class="teste" icon="fa-regular fa-comments" title="Converse" desc="Compartilhe ideias e histórias"/>
+                <CardIndexInfo class="teste" icon="fa-regular fa-heart" title="Engaje" desc="Curta, comente e republicar conteúdos"/>
             </div>
         </div>
     </section>
