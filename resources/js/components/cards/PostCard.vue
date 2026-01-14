@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="text-xl">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Placeat voluptate porro natus nobis! Exercitationem illo quidem nesciunt voluptatibus ab animi ipsam quo nam porro magni cupiditate tempora in debitis, itaque odio, ipsum sint ut, incidunt reiciendis numquam! Vitae alias eius excepturi harum dolore assumenda voluptatibus, mollitia minima culpa, voluptate blanditiis.</div>
-            <div class="border-t w-full border-neutral-300 mt-4 flex justify-between gap-0 lg:justify-start lg:gap-30">
+            <div class="border-t w-full border-neutral-300 mt-4 flex justify-between pr-2">
                 <InteractionButton :counter="15">
                     <i class="fa-regular fa-comment"></i>
                 </InteractionButton>
