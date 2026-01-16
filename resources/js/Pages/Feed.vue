@@ -8,6 +8,7 @@
     import TrendButton from '../components/buttons/TrendButton.vue'
     import Button from '../components/ui/Button.vue';
 
+
 </script>
 
 <template>
@@ -21,9 +22,9 @@
                     <h1 class="gradient-text text-3xl font-bold hidden lg:block">Conecta</h1>
                 </header>
 
-                <SidebarButton title="Home" class="" icon="fa-regular fa-home" href="test"/>
-                <SidebarButton title="Home" class="" icon="fa-regular fa-home" href="test"/>
-                <SidebarButton title="Home" class="" icon="fa-regular fa-home" href="test"/>
+                <!-- <SidebarButton title="Home" class="" icon="fa-regular fa-home" href="test"/> -->
+                <!-- <SidebarButton title="Perfil" class="" icon="fa-regular fa-user" href="test"/> -->
+                <!-- <SidebarButton title="Home" class="" icon="fa-regular fa-home" href="test"/> -->
 
                 <div class="mt-auto border-t border-neutral-300 lg:w-full pt-4">
                     <div class="flex gap-3 mb-6">
@@ -35,7 +36,7 @@
                             <p>@do_usuario</p>
                         </div>
                     </div>
-                    <Link class="w-full flex gap-3 p-3 items-center hover:bg-neutral-200 hover:text-red-500 rounded-lg">
+                    <Link href="/logout" class="w-full flex gap-3 p-3 items-center hover:bg-neutral-200 hover:text-red-500 rounded-lg">
                         <i class=" fa-solid fa-arrow-right-from-bracket"></i>
                         <p class="hidden lg:block">Sair</p>
                     </Link>
@@ -48,9 +49,6 @@
             </header>
             <div class="space-y-6 p-6">
                 <NewPostCard />
-                <PostCard />
-                <PostCard />
-                <PostCard />
             </div>
         </main>
         <aside class="hidden lg:flex sticky top-0 max-h-screen justify-start w-200 border-l border-neutral-300 bg-neutral-100">
@@ -66,14 +64,14 @@
                         <h5 class="text-2xl font-semibold">Em alta</h5>
                     </div>
                     <div class="">
-                        <TrendButton title="Negocios" counter="15.5"/>
-                        <TrendButton title="Tecnologia" counter="13.5"/>
-                        <TrendButton title="Desenvolvimento" counter="10.5"/>
+                        <TrendButton title="Negocios" :counter="15.5"/>
+                        <TrendButton title="Tecnologia" :counter="13.5"/>
+                        <TrendButton title="Desenvolvimento" :counter="10.5"/>
                     </div>
                 </Card>
 
                 <Card class="bg-white">
-                    <div class="flex gap-3 items-center mb-6">
+                    <div class="flex gap-3 items-center mb-10">
                         <i class="fa-solid fa-users text-xl text-orange-600"></i>
                         <h5 class="text-2xl font-semibold">Quem seguir</h5>
                     </div>

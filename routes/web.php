@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\TesteController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -12,8 +12,7 @@ Route::get('/feed', function () {
     return Inertia::render('Feed');
 })->name('feed.index')->middleware('loggedIn');
 
-Route::get('/teste', function () {
-    return Inertia::render('Test');
-})->name('teste');
+Route::get('/teste', [TesteController::class, 'index'])->name('teste');
 
 require __DIR__ . '/auth/auth.php';
+require __DIR__ . '/posts.php';
