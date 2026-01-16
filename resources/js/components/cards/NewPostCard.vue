@@ -1,8 +1,8 @@
 <script setup>
-    import { ref } from 'vue';
+    import { computed, ref } from 'vue';
     import Card from './Card.vue';
     import Button from '../ui/Button.vue'
-    import { Form, useForm } from '@inertiajs/vue3';
+    import { Form, useForm, usePage } from '@inertiajs/vue3';
 
     const content = ref(null);
     const contentDiv = ref(null);
@@ -21,16 +21,20 @@
         text: String | null,
     })
 
+    const page = usePage();
+    const user = computed(() => page.props.auth.user);
+
     function createPost(){
         content.value = null;
         contentDiv.value.innerText = '';
 
-        
-
         formData.post(route('posts.store'), {
             onSuccess:(response) => {
-                console.log(response.props.data.original);
-                emit('success', {'success' : true, 'data': response.props.data, 'msg': 'teste2'});
+                const data = {
+                    ...response.props.data.original.post,
+                    user: user
+                };
+                emit('success', {'success' : true, 'data': data});
             },
             onError: () => {
 
