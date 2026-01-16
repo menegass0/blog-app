@@ -25,17 +25,18 @@
         content.value = null;
         contentDiv.value.innerText = '';
 
-        // emit('posting', {'success' : true, 'data': 'teste', 'msg': 'teste2'});
+        
 
         formData.post(route('posts.store'), {
-            onSuccess:() => {
-
+            onSuccess:(response) => {
+                console.log(response.props.data.original);
+                emit('success', {'success' : true, 'data': response.props.data, 'msg': 'teste2'});
             },
             onError: () => {
 
             },
-            onFinish: () => {
-            },
+            // onFinish: () => {
+            // },
             preserveUrl:true
         })
     }

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
     import NewPostCard from '../components/cards/NewPostCard.vue';
     import PostCard from '../components/cards/PostCard.vue';
     import SidebarButton from '../components/buttons/SidebarButton.vue';
@@ -7,8 +7,11 @@
     import Card from '../components/cards/Card.vue';
     import TrendButton from '../components/buttons/TrendButton.vue'
     import Button from '../components/ui/Button.vue';
+    import { ref } from 'vue';
 
+    const props = defineProps({posts : Object});
 
+    console.log(props.posts)
 </script>
 
 <template>
@@ -49,6 +52,10 @@
             </header>
             <div class="space-y-6 p-6">
                 <NewPostCard />
+                
+                <div v-for="post in props.posts">
+                    <PostCard :post="post" />
+                </div>
             </div>
         </main>
         <aside class="hidden lg:flex sticky top-0 max-h-screen justify-start w-200 border-l border-neutral-300 bg-neutral-100">

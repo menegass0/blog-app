@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\FeedController;
 use App\Http\Controllers\TesteController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -8,9 +9,7 @@ Route::get('/', function () {
     return Inertia::render('Index');
 })->name('index');
 
-Route::get('/feed', function () {
-    return Inertia::render('Feed');
-})->name('feed.index')->middleware('loggedIn');
+Route::get('/feed', [FeedController::class, 'index'])->name('feed.index')->middleware('loggedIn');
 
 Route::get('/teste', [TesteController::class, 'index'])->name('teste');
 
