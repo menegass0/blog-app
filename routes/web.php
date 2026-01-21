@@ -15,3 +15,4 @@ Route::get('/teste', [TesteController::class, 'index'])->name('teste');
 
 require __DIR__ . '/auth/auth.php';
 require __DIR__ . '/posts.php';
+require __DIR__ . '/users.php';

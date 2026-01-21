@@ -32,6 +32,11 @@ class Post extends Model
             ->withTimestamps();
     }
 
+    public function repostedBy()
+    {
+        return $this->hasOne(Repost::class, 'repost_post_id');
+    }
+
 
     public function likes()
     {

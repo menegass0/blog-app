@@ -8,14 +8,14 @@
 
 
 <template>
-    <aside class="hidden lg:flex sticky top-0 max-h-screen justify-start w-200 border-l border-neutral-300 bg-neutral-100">
+    <aside class="hidden lg:flex sticky top-0 max-h-screen justify-start w-200 border-l border-neutral-300 bg-white">
         <div class="max-w-[450px] p-6 w-full">
             <div class="relative mb-6">
                 <i className="fa-solid fa-search absolute left-3 top-6/12 -translate-y-1/2 w-5 h-5 text-neutral-600 text-xl" />
                 <Input class="border-neutral-300 bg-white md:text-xl py-7 pl-12" placeholder="Buscar..."></Input>
             </div>
 
-            <Card class="bg-white mb-6">
+            <Card class="bg-white shadow-none! border border-neutral-300 mb-6">
                 <div class="flex gap-3 items-center mb-6">
                     <i class="fa-solid fa-arrow-trend-up text-xl text-orange-600"></i>
                     <h5 class="text-2xl font-semibold">Em alta</h5>
@@ -27,7 +27,7 @@
                 </div>
             </Card>
 
-            <Card class="bg-white">
+            <Card class="bg-white shadow-none border border-neutral-300">
                 <div class="flex gap-3 items-center mb-10">
                     <i class="fa-solid fa-users text-xl text-orange-600"></i>
                     <h5 class="text-2xl font-semibold">Quem seguir</h5>

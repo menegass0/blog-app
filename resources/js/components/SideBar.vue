@@ -1,6 +1,7 @@
 <script setup>
     import { Link, usePage } from '@inertiajs/vue3';
     import { computed } from 'vue';
+    import SidebarButton from '../components/buttons/SidebarButton.vue'
 
     const page = usePage();
 
@@ -19,7 +20,7 @@
             </header>
 
             <!-- <SidebarButton title="Home" class="" icon="fa-regular fa-home" href="test"/> -->
-            <!-- <SidebarButton title="Perfil" class="" icon="fa-regular fa-user" href="test"/> -->
+            <SidebarButton title="Perfil" class="" icon="fas fa-user" :href="route('users.show', {user: user.slug})"/>
             <!-- <SidebarButton title="Home" class="" icon="fa-regular fa-home" href="test"/> -->
 
             <div class="mt-auto border-t border-neutral-300 lg:w-full pt-4">
