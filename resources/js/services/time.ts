@@ -10,12 +10,12 @@ export function formatTimeAgo(dateString: string): string {
 
     let interval = seconds / 31536000;
     if (interval > 1) {
-        return (date.getDate() + 1) + ' de ' + date.toLocaleString('pt-BR', {month: 'long'}) + ' de ' + date.getFullYear();
+        return (date.getDate()) + ' de ' + date.toLocaleString('pt-BR', {month: 'long'}) + ' de ' + date.getFullYear();
     }
     interval = seconds / 2592000;
 
     if (interval > 1) {
-        return (date.getDate() + 1) + ' de ' + date.toLocaleString('pt-BR', {month: 'long'});
+        return (date.getDate()) + ' de ' + date.toLocaleString('pt-BR', {month: 'long'});
     }
 
     interval = seconds / 86400;
@@ -34,4 +34,28 @@ export function formatTimeAgo(dateString: string): string {
         return Math.floor(interval) + "m";
     }
     return Math.floor(seconds) + " seconds ago";
+}
+
+
+export function getFullDate(dateString: string): string{
+    const date = new Date(dateString);
+
+    return (date.getDate()) + ' de ' + date.toLocaleString('pt-BR', {month: 'long'}) + ' de ' + date.getFullYear();
+}
+
+export function getHourAMPM(dateString: string){
+    const date = new Date(dateString);
+
+    let hours = date.getHours();
+    const minutes = date.getMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+
+    hours = hours % 12;
+    hours = hours ? hours : 12; 
+
+    const minutesPadded = minutes < 10 ? '0' + minutes : minutes;
+
+    const strTime = hours + ':' + minutesPadded + ' ' + ampm;
+
+    return strTime;
 }

@@ -4,10 +4,10 @@
     import SideBar from '../components/SideBar.vue';
     import { computed, ref } from 'vue';
     import InteractionButton from '../components/buttons/InteractionButton.vue';
+    import { getFullDate, getHourAMPM } from '../services/time';
 
     const page = usePage();
     const user = computed(() => page.props.auth.user);
-
     const post = computed(() => page.props.post);
 
     const content = ref(null);
@@ -26,10 +26,6 @@
     const formData = useForm({
         text: String | null,
     })
-
-    function handleFocus(){
-        console.log('aaaaaaaaaa');
-    }
 
     function handleSubmit(){
 
@@ -60,9 +56,9 @@
                         {{ post.text }}
                     </p>    
                     <div class="flex gap-1 text-neutral-500">
-                        <p>7:00 PM</p>
+                        <p>{{ getHourAMPM(post.created_at) }}</p>
                         <span>&#183;</span>
-                        <p>20 de jan de 2026</p>
+                        <p>{{ getFullDate(post.created_at) }}</p>
                         <span>&#183;</span>
                         <p><strong class="text-black">200 mill</strong> Visualizações</p>
                     </div>
@@ -78,7 +74,7 @@
                     </div>
                     <Form class="w-full" method="post" @submit-prevent="handleSubmit">
                         <div class=" w-full relative">
-                            <div @focus="handleFocus" class="w-full text-3xl min-h-[72px] max-h-[150px] break-all focus:outline-none overflow-y-auto" ref="contentDiv" @blur="handleBlur" @input="handleInput" contenteditable="true"></div>
+                            <div  class="w-full text-3xl min-h-[72px] max-h-[150px] break-all focus:outline-none overflow-y-auto" ref="contentDiv" @blur="handleBlur" @input="handleInput" contenteditable="true"></div>
                             <span v-if="!content" class="absolute top-0 text-3xl pointer-events-none text-neutral-500">Postar Sua Resposta</span>
                         </div>
                         <div class="pt-3 border-t border-neutral-300 flex justify-end">
