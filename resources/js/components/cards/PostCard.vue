@@ -3,18 +3,43 @@
     import InteractionButton from '../buttons/InteractionButton.vue';
     import { formatTimeAgo } from '../../services/time';
     import { Link } from '@inertiajs/vue3';
+    import { ref } from 'vue';
+    import { toggleLikePost } from '../../services/post';
 
     const props = defineProps({
         post: {
             id: Number,
             text: String,
             created_at: Date,
+            likes_count: Number,
+            liked_by_me: Boolean,
+            comments_count: Number,
+            reposts_count: Number,
             user: {
                 slug: String,
                 name: String
             }
         }
     })
+
+    const likes = ref(props.post.likes_count)
+    const liked = ref(props.post.liked_by_me);
+
+    function handleLikeButtonClick(e){
+        e.stopPropagation();
+
+        liked.value = !liked.value;
+
+        if(liked.value){
+            likes.value += 1;
+        }else{
+            likes.value -= 1;
+        }
+
+        toggleLikePost(props.post.id);
+
+    }
+
 </script>
 
 <template>
@@ -37,13 +62,13 @@
                 </div>
                 <div class="text-xl">{{ post.text }}</div>
                 <div class="border-t w-full border-neutral-300 mt-4 flex justify-between pr-2">
-                    <InteractionButton :counter="15">
+                    <InteractionButton :counter="0">
                         <i class="fa-regular fa-comment"></i>
                     </InteractionButton>
                     <InteractionButton :counter="15">
                         <i class="fas fa-retweet"></i>
                     </InteractionButton>
-                    <InteractionButton :counter="15">
+                    <InteractionButton @click.prevent.stop="handleLikeButtonClick" :active="liked" :counter="likes">
                         <i class="fa-regular fa-heart"></i>
                     </InteractionButton>
                 </div>

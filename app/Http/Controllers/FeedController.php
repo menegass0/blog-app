@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class FeedController extends Controller
@@ -17,6 +18,9 @@ class FeedController extends Controller
             'posts' => Inertia::defer(fn() => Post::with([
                 'user',
                 'originalPost',
+            ])->withCount(['likes'])->withExists([
+                'likes as liked_by_me' => fn($q) =>
+                $q->where('user_id', Auth::id())
             ])
                 ->latest()
                 ->get())

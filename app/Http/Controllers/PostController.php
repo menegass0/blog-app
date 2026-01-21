@@ -44,8 +44,24 @@ class PostController extends Controller
         ]);
     }
 
-    public function like($postId)
+    public function toggleLike(Post $post)
     {
-        $user = User::findOrFail(Auth::id());
+        $user = Auth::user();
+
+        // toggle like
+        $liked = $post->likes()
+            ->where('user_id', $user->id)
+            ->exists();
+
+        if ($liked) {
+            $post->likes()->detach($user->id);
+        } else {
+            $post->likes()->attach($user->id);
+        }
+
+        return response()->json([
+            'liked' => ! $liked,
+            'likes_count' => $post->likes()->count(),
+        ]);
     }
 }

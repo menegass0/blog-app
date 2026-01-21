@@ -3,12 +3,13 @@
     import Button from '../ui/Button.vue';
     
     defineProps({
-        counter: Number
+        counter: Number,
+        active: Boolean
     })
 </script>
 
 <template>
-    <Button class="text-neutral-600 flex gap-2 text-xl items-center hover:text-orange-600" >
+    <Button :class="[active ? 'text-orange-600' : 'text-neutral-600']" class="flex gap-2 text-xl items-center hover:text-orange-600" >
         <slot />
         {{ counter }}
     </Button>
