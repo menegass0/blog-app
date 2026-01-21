@@ -25,6 +25,7 @@ class StoreSignupRequest extends FormRequest
         return [
             'name' => 'required|max:255|string',
             'email' => 'required|unique:users|email:dns,spoof',
+            'slug' => 'required|unique:users|max:80|regex:/^[\w]+$/',
             'password' => ['required', 'string', 'confirmed', Password::min(8)->max(120)->mixedCase()->numbers()->symbols()]
         ];
     }
@@ -35,8 +36,12 @@ class StoreSignupRequest extends FormRequest
             'name' => 'insira um nome válido',
             'email' => 'insira um endereço de e-mail válido',
             'email.unique' => 'Esse endereço de e-mail já está cadastrado',
-            'password.min' => 'Sua senha precisa ter pelo menos :min caracteres.',
-            'password.min' => 'Sua senha pode ter no maximo :max caracteres.',
+            'slug.required' => 'Por favor insira um nick de perfil',
+            'slug.regex' => 'o nick de perfil nao pode conter caracteres especiais, apenas letras numeros e underline',
+            'slug.unique' => 'Esse nick de perfil já está cadastrado',
+            'slug.max' => 'Nick do perfil muito grande',
+            'password.min' => 'Sua senha precisa ter pelo menos 8 caracteres.',
+            'password.min' => 'Sua senha pode ter no maximo 120 caracteres.',
             'password.confirmed' => 'As senhas não são iguais.',
             'password.mixed_case' => 'Sua senha precisa conter pelo menos uma letra maiúscula e uma minúscula.', // Use 'password.mixed_case' as the key
             'password.numbers' => 'Sua senha precisa conter pelo menos um numero.',

@@ -18,6 +18,7 @@ class AuthService
         $user = User::create([
             'name' => $request['name'],
             'email' => $request['email'],
+            'slug' => $request['slug'],
             'password' => Hash::make($request['password']),
         ]);
 

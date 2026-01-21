@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Post;
@@ -14,9 +14,12 @@ class FeedController extends Controller
         // $posts = Post::select('id', 'text', 'created_at')->with('user')->orderBy('created_at', 'desc')->limit(3)->get();
 
         return Inertia::render('Feed', [
-            'posts' => Inertia::defer(fn() => Post::with(['user' => function ($query) {
-                $query->select('id', 'name');
-            }])->orderBy('created_at', 'desc')->limit(10)->get()),
+            'posts' => Inertia::defer(fn() => Post::with([
+                'user',
+                'originalPost',
+            ])
+                ->latest()
+                ->get())
         ]);
     }
 }

@@ -1,8 +1,9 @@
 export interface RegisterForm {
-    name?: string,
+    name?: string | null,
+    slug?: string | null,
     email?: `${string}@${string}.${string}` | null,
-    password?: string,
-    password_confirmation?: string
+    password?: string | null,
+    password_confirmation?: string | null
 }
 
 export async function register(formData : RegisterForm) {

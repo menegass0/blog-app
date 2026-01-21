@@ -4,3 +4,5 @@ use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
+
+Route::get('/{slug}/status/{postId}', [PostController::class, 'show'])->name('posts.show');

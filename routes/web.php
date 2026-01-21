@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Auth\FeedController;
+use App\Http\Controllers\FeedController;
 use App\Http\Controllers\TesteController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;

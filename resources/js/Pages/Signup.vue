@@ -3,28 +3,27 @@
     import Input from '../components/ui/Input.vue';
     import Button from '../components/ui/Button.vue';
     import { RegisterForm } from '../services/auth/register';
-    import { Form, Link} from '@inertiajs/vue3';
-    import axios from 'axios';
+    import { Form, Link, useForm} from '@inertiajs/vue3';
     import FormErrors from '../components/ui/FormErrors.vue';
 
-    const formData : RegisterForm = reactive({})
+    const formData = useForm<RegisterForm>({
+        name: null,
+        slug: null,
+        email: null,
+        password: null,
+        password_confirmation: null
+    })
 
     const form = ref();
 
-    const errors = ref(null);
-
-    const submitForm = async () => {
-        try {
-            await axios.post(route('signup.store'), formData);
-            alert('Post created successfully!');
-        } catch (error) {
-            if (error.response && error.response.status === 422) {
-                errors.value = error.response.data.errors;
-            } else {
-                console.error("An unexpected error occurred:", error);
+    const submitForm = () => {
+        formData.post(route('signup.store'), {
+            onError:() => {
+                formData.reset('password');
+                formData.reset('password_confirmation');
             }
-        }
-    };
+        })
+    }
 
 </script>
 
@@ -38,16 +37,16 @@
                     <p></p>
                 </div>
 
-                <div v-if="errors">
+                <div v-if="formData.errors.email || formData.errors.password || formData.errors.name || formData.errors.slug || formData.errors.password_confirmation">
                     <FormErrors class="mb-6 items-normal" >
                         <ul>
-                            <li class="list-disc ms-3" v-for="(value, key, index) in errors" :key="key">
-                                <div v-if="typeof value !== 'object' && value.length == 1">
-                                    {{ value[0] }}
+                            <li class="list-disc ms-3" v-for="(value, key, index) in formData.errors" :key="key">
+                                <div v-if="true">
+                                    {{ value }}
                                 </div>
-                                <li v-else="" v-for="(value2, key2, index2) in value" :key="key">
+                                <!-- <li v-else="" v-for="(value2, key2, index2) in value" :key="key">
                                     {{ value2 }}
-                                </li>
+                                </li> -->
                             </li>
                         </ul>
                     </FormErrors>
@@ -55,10 +54,18 @@
                 
                 <Form @submit.prevent="submitForm" :action="route('signup.store')" :ref="form" method="POST" class="flex flex-col space-y-5">
                     <div class="flex flex-col gap-y-2">
-                        <label for="" class="text-sm">Nome Completo</label>
+                        <label for="" class="text-sm">Nome de Usuário</label>
                         <div class="relative">
                             <i className="fa-regular fa-user absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                             <Input class="pl-10 h-12 bg-card border-border" v-model="formData.name" name="name" placeholder="Seu nome"></Input>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-y-2">
+                        <label for="" class="text-sm">Nick do Perfil</label>
+                        <div class="relative">
+                            <span class="text-xl absolute left-3 top-3/8 -translate-y-1/2 w-5 h-5">@</span>
+                            <Input class="pl-10 h-12 bg-card border-border" v-model="formData.slug" name="name" placeholder="Seu nick"></Input>
                         </div>
                     </div>
 
@@ -73,7 +80,7 @@
                     <div class="flex flex-col gap-y-2">
                         <label for="" class="text-sm">Senha</label>
                         <div class="relative">
-                            <i className="fa-regular fa-envelope absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                            <i className="fa-solid fa-key absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                             <Input class="pl-10 h-12 bg-card border-border" v-model="formData.password" name="password" type="password" placeholder="minimo 8 caracteres"></Input>
                         </div>
                     </div>
@@ -81,7 +88,7 @@
                     <div class="flex flex-col gap-y-2">
                         <label for="" class="text-sm">Confirmação de Senha</label>
                         <div class="relative">
-                            <i className="fa-regular fa-envelope absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                            <i className="fa-solid fa-key absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                             <Input class="pl-10 h-12 bg-card border-border" v-model="formData.password_confirmation" name="password_confirmation" type="password" placeholder="Confirme sua Senha"></Input>
                         </div>
                     </div>

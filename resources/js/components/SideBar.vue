@@ -1,3 +1,12 @@
+<script setup>
+    import { Link, usePage } from '@inertiajs/vue3';
+    import { computed } from 'vue';
+
+    const page = usePage();
+
+    const user = computed(() => page.props.auth.user)
+</script>
+
 
 <template>
     <aside class="flex sticky top-0 max-h-screen justify-end w-30 lg:w-140 border-r-2 border-neutral-300">
@@ -19,8 +28,8 @@
                         <i class="fas fa-user"></i>
                     </div>
                     <div class="hidden lg:flex flex-col">
-                        <strong>Nome do Usuário</strong>
-                        <p>@do_usuario</p>
+                        <strong>{{ user.name }}</strong>
+                        <p>@{{ user.slug }}</p>
                     </div>
                 </div>
                 <Link href="/logout" class="w-full flex gap-3 p-3 items-center hover:bg-neutral-200 hover:text-red-500 rounded-lg">

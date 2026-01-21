@@ -21,6 +21,8 @@
             if (newPosts) {
                 posts.value = [...newPosts]
                 isLoaded.value = true
+
+                console.log(posts);
             }
         },
         { immediate: true }
@@ -52,7 +54,7 @@
                     </Deferred>
                 </div>
                 <div v-else class="flex flex-col w-full space-y-6">
-                    <div v-for="post in posts" >
+                    <div v-for="post in posts" :key="post.id">
                         <PostCard :post="post" />
                     </div>
                 </div>
