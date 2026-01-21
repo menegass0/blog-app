@@ -7,6 +7,7 @@
     import { toggleLikePost } from '../../services/post';
 
     const props = defineProps({
+        class: null,
         post: {
             id: Number,
             text: String,
@@ -19,7 +20,7 @@
                 slug: String,
                 name: String
             }
-        }
+        } | null 
     })
 
     const likes = ref(props.post.likes_count)
@@ -44,7 +45,7 @@
 
 <template>
     <Link :href="route('posts.show', {'slug' : post.user.slug, 'postId': post.id})">
-        <Card class="flex gap-4 bg-white p-5 shadow-lg" >
+        <Card :class="props.class" class="flex gap-4 bg-white px-5! pt-3! pb-0 shadow-lg" >
             <div class="bg-blue-200 flex items-center justify-center w-[48px] h-[48px] rounded-full">
                 <i class=" fas fa-user"></i>
             </div>
@@ -61,7 +62,7 @@
                     </div> -->
                 </div>
                 <div class="text-xl">{{ post.text }}</div>
-                <div class="border-t w-full border-neutral-300 mt-4 flex justify-between pr-2">
+                <div class="w-full flex justify-between items-end pr-2">
                     <InteractionButton :counter="0">
                         <i class="fa-regular fa-comment"></i>
                     </InteractionButton>
