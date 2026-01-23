@@ -2,6 +2,7 @@
     import { Link, usePage } from '@inertiajs/vue3';
     import { computed } from 'vue';
     import SidebarButton from '../components/buttons/SidebarButton.vue'
+    import Button from './ui/Button.vue';
 
     const page = usePage();
 
@@ -19,8 +20,10 @@
                 <h1 class="gradient-text text-3xl font-bold hidden lg:block">Conecta</h1>
             </header>
 
+            <div v-if="user" class="w-full">
+                <SidebarButton title="Perfil" class="" icon="fas fa-user" :href="route('users.show', {user: user.slug})"/>
+            </div>
             <!-- <SidebarButton title="Home" class="" icon="fa-regular fa-home" href="test"/> -->
-            <SidebarButton title="Perfil" class="" icon="fas fa-user" :href="route('users.show', {user: user.slug})"/>
             <!-- <SidebarButton title="Home" class="" icon="fa-regular fa-home" href="test"/> -->
 
             <div class="mt-auto border-t border-neutral-300 lg:w-full pt-4">
@@ -29,14 +32,21 @@
                         <i class="fas fa-user"></i>
                     </div>
                     <div class="hidden lg:flex flex-col">
-                        <strong>{{ user.name }}</strong>
-                        <p>@{{ user.slug }}</p>
+                        <div v-if="user">
+                            <strong>{{ user.name }}</strong>
+                            <p>@{{ user.slug }}</p>
+                        </div>
+                        <div v-else>
+                            <Link :href="route('login.index')"><Button class="rounded-full! border border-neutral-400 px-8  hover:bg-orange-600 hover:text-white">Entrar</Button></Link>
+                        </div>
                     </div>
                 </div>
-                <Link href="/logout" class="w-full flex gap-3 p-3 items-center hover:bg-neutral-200 hover:text-red-500 rounded-lg">
-                    <i class=" fa-solid fa-arrow-right-from-bracket"></i>
-                    <p class="hidden lg:block">Sair</p>
-                </Link>
+                <div v-if="user">
+                    <Link href="/logout" class="w-full flex gap-3 p-3 items-center hover:bg-neutral-200 hover:text-red-500 rounded-lg">
+                        <i class=" fa-solid fa-arrow-right-from-bracket"></i>
+                        <p class="hidden lg:block">Sair</p>
+                    </Link>
+                </div>
             </div>
         </div>
     </aside>
