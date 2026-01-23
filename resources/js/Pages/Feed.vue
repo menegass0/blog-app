@@ -21,6 +21,7 @@
             if (newPosts) {
                 posts.value = [...newPosts]
                 isLoaded.value = true
+                console.log(posts.value);
             }
         },
         { immediate: true }

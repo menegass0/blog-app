@@ -13,9 +13,20 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->string('text');
+            $table->foreignId('user_id')
+                ->constrained('users')
+                ->cascadeOnDelete();
+
+            $table->text('text', 255);
+
+            $table->foreignId('quote_post_id')
+                ->nullable()
+                ->constrained('posts')
+                ->nullOnDelete();
+
             $table->timestamps();
+
+            $table->index('created_at');
         });
     }
 

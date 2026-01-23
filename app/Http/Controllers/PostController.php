@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePostRequest;
 use App\Models\Post;
+use App\Models\Repost;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -62,6 +64,45 @@ class PostController extends Controller
         return response()->json([
             'liked' => ! $liked,
             'likes_count' => $post->likes()->count(),
+        ]);
+    }
+
+    public function createRepost($postId)
+    {
+        DB::beginTransaction();
+
+        $post = Post::findOrFail($postId);
+
+        $user = User::findOrFail(Auth::id());
+
+        $newRepost = Repost::create(['user_id' => $user->id, 'post_id' => $post->id]);
+
+        DB::commit();
+
+        return Inertia::render('Feed', [
+            'data' => new JsonResponse(['post' => $newRepost], 201),
+        ]);
+    }
+
+    public function deleteRepost($postId)
+    {
+        DB::beginTransaction();
+
+        $post = Post::findOrFail($postId);
+
+        $user = User::findOrFail(Auth::id());
+
+        $repost = Repost::where([
+            ['post_id', $post->id],
+            ['user_id', $user->id]
+        ])->firstOrFail();
+
+        $repost->delete();
+
+        DB::commit();
+
+        return Inertia::render('Feed', [
+            'data' => new JsonResponse(204),
         ]);
     }
 }

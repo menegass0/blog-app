@@ -4,7 +4,7 @@
     import { formatTimeAgo } from '../../services/time';
     import { Link } from '@inertiajs/vue3';
     import { ref } from 'vue';
-    import { toggleLikePost } from '../../services/post';
+    import { createRepost, deleteRepost, toggleLikePost } from '../../services/post';
 
     const props = defineProps({
         class: null,
@@ -16,6 +16,7 @@
             liked_by_me: Boolean,
             comments_count: Number,
             reposts_count: Number,
+            reposted_by_me: Boolean,
             user: {
                 slug: String,
                 name: String
@@ -26,9 +27,10 @@
     const likes = ref(props.post.likes_count)
     const liked = ref(props.post.liked_by_me);
 
-    function handleLikeButtonClick(e){
-        e.stopPropagation();
+    const reposts = ref(props.post.reposts_count)
+    const reposted = ref(props.post.reposted_by_me);
 
+    function handleLikeButtonClick(e){
         liked.value = !liked.value;
 
         if(liked.value){
@@ -39,6 +41,18 @@
 
         toggleLikePost(props.post.id);
 
+    }
+
+    function handleRepostButtonClick(){
+        reposted.value = !reposted.value;
+
+        if(!reposted.value){
+            reposts.value -= 1;
+            deleteRepost(props.post.id);
+        }else{
+            reposts.value += 1;
+            createRepost(props.post.id);
+        }
     }
 
 </script>
@@ -52,10 +66,10 @@
             <div class="flex flex-col w-full ">
                 <div class="w-full flex gap-2 items-start justify-between mb-2">
                     <div class="flex gap-2">
-                        <p class="text-xl font-semibold">{{ post.user.name }}</p>
-                        <p class="text-xl text-neutral-600">@{{ post.user.slug }}</p >
+                        <p class="text-xl font-semibold text-ellipsis">{{ post.user.name }}</p>
+                        <p class="text-xl text-neutral-600 text-ellipsis">@{{ post.user.slug }}</p >
                         <p class="text-xl text-neutral-600">&#183;</p>
-                        <p class="text-xl text-neutral-600">{{ formatTimeAgo(post.created_at) }}</p>
+                        <p class="text-xl text-neutral-600 whitespace-nowrap">{{ formatTimeAgo(post.created_at) }}</p>
                     </div>
                     <!-- <div class="">
                         ...
@@ -63,10 +77,10 @@
                 </div>
                 <div class="text-xl">{{ post.text }}</div>
                 <div class="w-full flex justify-between items-end pr-2">
-                    <InteractionButton :counter="0">
+                    <InteractionButton :counter="0" @click.prevent.stop="">
                         <i class="fa-regular fa-comment"></i>
                     </InteractionButton>
-                    <InteractionButton :counter="15">
+                    <InteractionButton :counter="reposts" :active="reposted" @click.prevent.stop="handleRepostButtonClick">
                         <i class="fas fa-retweet"></i>
                     </InteractionButton>
                     <InteractionButton @click.prevent.stop="handleLikeButtonClick" :active="liked" :counter="likes">

@@ -17,7 +17,7 @@ export async function toggleLikePost(postId: number) {
             credentials: 'same-origin',
             headers: {
                 Accept: 'application/json',
-                'X-CSRF-TOKEN': page.props.csrf_token, // ✅ string
+                'X-CSRF-TOKEN': page.props.csrf_token, 
             },
         }
     )
@@ -26,5 +26,49 @@ export async function toggleLikePost(postId: number) {
         throw new Error('Failed to like post')
     }
 
-    return response.json()
+    return response
+}
+
+export async function createRepost(postId: number) {
+    const page = usePage()
+
+    const response = await fetch(
+        route('posts.create.repost', postId),
+        {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+                Accept: 'application/json',
+                'X-CSRF-TOKEN': page.props.csrf_token, 
+            },
+        }
+    )
+
+    if (!response.ok) {
+        throw new Error('Failed to repost')
+    }
+
+    return response
+}
+
+export async function deleteRepost(postId: number) {
+    const page = usePage()
+
+    const response = await fetch(
+        route('posts.remove.repost', postId),
+        {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+                Accept: 'application/json',
+                'X-CSRF-TOKEN': page.props.csrf_token, 
+            },
+        }
+    )
+
+    if (!response.ok) {
+        throw new Error('Failed to repost')
+    }
+
+    return response
 }

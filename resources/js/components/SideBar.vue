@@ -31,10 +31,10 @@
                     <div class="bg-blue-200 flex items-center justify-center w-[48px] h-[48px] rounded-full">
                         <i class="fas fa-user"></i>
                     </div>
-                    <div class="hidden lg:flex flex-col">
-                        <div v-if="user">
-                            <strong>{{ user.name }}</strong>
-                            <p>@{{ user.slug }}</p>
+                    <div class="hidden lg:flex flex-col overflow-hidden">
+                        <div v-if="user" class="">
+                            <strong class=" text-ellipsis">{{ user.name }}</strong>
+                            <p class="text-ellipsis">@{{ user.slug }}</p>
                         </div>
                         <div v-else>
                             <Link :href="route('login.index')"><Button class="rounded-full! border border-neutral-400 px-8  hover:bg-orange-600 hover:text-white">Entrar</Button></Link>

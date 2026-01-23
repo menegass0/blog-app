@@ -12,15 +12,15 @@ class FeedController extends Controller
 {
     public function index()
     {
-        // $posts = Post::select('id', 'text', 'created_at')->with('user')->orderBy('created_at', 'desc')->limit(3)->get();
-
         return Inertia::render('Feed', [
             'posts' => Inertia::defer(fn() => Post::with([
                 'user',
-                'originalPost',
-            ])->withCount(['likes'])->withExists([
+            ])->withCount(['likes', 'reposts'])->withExists([
                 'likes as liked_by_me' => fn($q) =>
-                $q->where('user_id', Auth::id())
+                $q->where('user_id', Auth::id()),
+
+                'reposts as reposted_by_me' => fn($q) =>
+                $q->where('user_id', Auth::id()),
             ])
                 ->latest()
                 ->get())

@@ -13,10 +13,18 @@ return new class extends Migration
     {
         Schema::create('reposts', function (Blueprint $table) {
             $table->id();
-            // $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('repost_post_id')->nullable()->default(null)->constrained('posts')->onDelete('cascade');
-            $table->foreignId('original_post_id')->nullable()->constrained('posts')->onDelete('set null');
+
+            $table->foreignId('user_id')
+                ->constrained('users')
+                ->cascadeOnDelete();
+
+            $table->foreignId('post_id')
+                ->constrained('posts')
+                ->cascadeOnDelete();
+
             $table->timestamps();
+
+            $table->unique(['user_id', 'post_id']);
         });
     }
 

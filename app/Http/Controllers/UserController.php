@@ -15,12 +15,8 @@ class UserController extends Controller
 
         $posts = Post::query()
             ->where('user_id', $user->id) // posts I created
-            ->orWhereHas('repostedBy', function ($query) use ($user) {
-                $query->where('user_id', $user->id); // posts I reposted
-            })
             ->with([
                 'user:id,name,slug',
-                'repostedBy.originalPost.user:id,name,slug',
             ])
             ->latest()
             ->paginate(15);
