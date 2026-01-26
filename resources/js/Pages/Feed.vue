@@ -4,28 +4,20 @@
     import SideBar from '../components/SideBar.vue';
     import RightSideBar from '../components/RightSideBar.vue'
     import { Deferred } from '@inertiajs/vue3'
-    import { ref, watch } from 'vue';
+    import { computed, ref, watch } from 'vue';
     import BaseLayout from '../layouts/BaseLayout.vue';
+    import { Post } from '../types/Post';
 
 
     const props = defineProps<{
-        posts: any
+        posts?: {
+            data: Post[]
+        }
     }>()
 
-    const posts = ref<any[]>([])
-    const isLoaded = ref(false);
 
-    watch(
-        () => props.posts,
-        (newPosts) => {
-            if (newPosts) {
-                posts.value = [...newPosts]
-                isLoaded.value = true
-                console.log(posts.value);
-            }
-        },
-        { immediate: true }
-    )
+    const posts = computed(() => props.posts?.data ?? [])
+    const isLoaded = computed(() => !!props.posts)
 
     const addPost = (payload: any) => {
         let post = payload.data;

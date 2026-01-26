@@ -35,7 +35,16 @@ class PostController extends Controller
     {
         $user = User::where('slug', $slug)->first();
 
-        $post = Post::with('user')->findOrFail($postId);
+        $post = Post::with(['user:id,name,slug'])
+            ->withCount(['likes', 'reposts'])
+            ->withExists([
+                'likes as liked_by_me' => fn($q) =>
+                $q->where('user_id', Auth::id()),
+
+                'reposts as reposted_by_me' => fn($q) =>
+                $q->where('user_id', Auth::id()),
+            ])
+            ->findOrFail($postId);
 
         if (!$user) {
             return redirect(route('posts.show', ['slug' => $post->user->slug, 'postId' => $postId]));

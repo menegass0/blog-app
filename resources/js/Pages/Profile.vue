@@ -55,7 +55,7 @@
                 <Button class="w-full font-semibold rounded-none! hover:bg-neutral-200">Curtidas</Button>
             </div>
 
-            <div class="p-6">
+            <div class="">
                 <div v-for="post in posts.data" >
                     <PostCard class="border-b border-neutral-400" :post="post" />
                 </div>

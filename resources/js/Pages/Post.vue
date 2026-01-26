@@ -1,30 +1,39 @@
-<script setup>
+<script setup lang="ts">
     import { Link, useForm, usePage } from '@inertiajs/vue3';
     import { computed, ref } from 'vue';
     import InteractionButton from '../components/buttons/InteractionButton.vue';
     import { getFullDate, getHourAMPM } from '../services/time';
     import BaseLayout from '../layouts/BaseLayout.vue';
+    import { PageProps } from '../types/inertia';
+    import { Post } from '../types/Post';
 
-    const page = usePage();
-    const user = computed(() => page.props.auth.user);
-    const post = computed(() => page.props.post);
+    // const page = usePage<PageProps>();
+    // const user = computed(() => page.props.auth.user);
+    
+    const props = defineProps<{
+        post : Post
+     }>()
 
-    const content = ref(null);
-    const contentDiv = ref(null);
+    const contentDiv = ref<HTMLDivElement | null>(null)
+    const content = ref<string | null>(null)
 
-    const normalize = (value) =>
+    const formData = useForm<{
+        text: string | null
+    }>({
+        text: null,
+    })
+
+    const normalize = (value: string) =>
         value.replace(/\u00A0/g, '').trim()
 
-    function handleInput(){
-        content.value = normalize(contentDiv.value.innerText);
-        formData.text = content.value;
+    function handleInput() {
+        if (!contentDiv.value) return
+
+        content.value = normalize(contentDiv.value.innerText)
+        formData.text = content.value
     }
 
     const emit = defineEmits(['success', 'error'])
-
-    const formData = useForm({
-        text: String | null,
-    })
 
     function handleSubmit(){
 
@@ -40,12 +49,12 @@
         </header>
         <div class="p-6">
             <div class="flex gap-4 mb-3">
-                <Link :href="route('users.show', {user: post.user.slug})" class="bg-blue-200 flex items-center justify-center w-[60px] h-[60px] rounded-full">
+                <Link :href="route('users.show', {user: post.user.slug})" class="shrink-0 bg-blue-200 flex items-center justify-center w-[60px] h-[60px] rounded-full">
                     <i class="fas fa-user"></i>
                 </Link>
-                <div class="hidden lg:flex flex-col">
-                    <Link :href="route('users.show', {user: post.user.slug})" class="text-2xl font-semibold text-ellipsis">{{ post.user.name }}</Link>
-                    <Link :href="route('users.show', {user: post.user.slug})" class="text-neutral-600 text-xl" >@{{ post.user.slug }}</Link>
+                <div class="hidden lg:flex flex-col max-w-full min-w-0">
+                    <Link :href="route('users.show', {user: post.user.slug})" class="text-2xl font-semibold truncate text-ellipsis">{{ post.user.name }}</Link>
+                    <Link :href="route('users.show', {user: post.user.slug})" class="text-neutral-600 text-xl truncate text-ellipsis" >@{{ post.user.slug }}</Link>
                 </div>
             </div>
             <div class="w-full pb-3">
@@ -61,9 +70,9 @@
                 </div>
             </div>
             <div class="flex gap-20 border-y border-neutral-300">
-                <InteractionButton :counter="0"><i class="fa-regular fa-comment"></i></InteractionButton>
-                <InteractionButton :counter="0"><i class="fas fa-retweet"></i></InteractionButton>
-                <InteractionButton :counter="0"><i class="fa-regular fa-heart"></i></InteractionButton>
+                <InteractionButton :counter="post.comments_count ?? 0" ><i class="fa-regular fa-comment"></i></InteractionButton>
+                <InteractionButton :counter="post.reposts_count ?? 0" :active="post.reposted_by_me"><i class="fas fa-retweet"></i></InteractionButton>
+                <InteractionButton :counter="post.likes_count ?? 0" :active="post.liked_by_me"><i class="fa-regular fa-heart"></i></InteractionButton>
             </div>
             <div class="flex gap-3 py-6 border-b border-neutral-300">
                 <div class="bg-blue-200 flex items-center justify-center w-[48px] h-[48px] rounded-full">

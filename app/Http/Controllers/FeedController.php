@@ -23,7 +23,7 @@ class FeedController extends Controller
                 $q->where('user_id', Auth::id()),
             ])
                 ->latest()
-                ->get())
+                ->paginate(15))
         ]);
     }
 }
