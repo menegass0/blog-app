@@ -1,47 +1,69 @@
-<script setup>
+<script setup lang="ts">
     import { computed, ref } from 'vue';
     import Card from './Card.vue';
     import Button from '../ui/Button.vue'
     import { Form, useForm, usePage } from '@inertiajs/vue3';
+    import type { Post } from '../../types/Post'
+    import type { PageProps } from '../../types/inertia'
+    import {hasCreatePostData } from '../../types/responses';
 
-    const content = ref(null);
-    const contentDiv = ref(null);
+    const contentDiv = ref<HTMLDivElement | null>(null)
+    const content = ref<string | null>(null)
 
-    const normalize = (value) =>
+    const normalize = (value: string) =>
         value.replace(/\u00A0/g, '').trim()
 
-    function handleInput(){
-        content.value = normalize(contentDiv.value.innerText);
-        formData.text = content.value;
+
+    function handleInput() {
+        if (!contentDiv.value) return
+
+        content.value = normalize(contentDiv.value.innerText)
+        formData.text = content.value
     }
 
-    const emit = defineEmits(['success', 'error'])
+    const emit = defineEmits<{
+        (e: 'success', payload: { success: true; data: Post }): void
+        (e: 'error'): void
+    }>()
 
-    const formData = useForm({
-        text: String | null,
+    const formData = useForm<{
+        text: string | null
+    }>({
+        text: null,
     })
 
-    const page = usePage();
+    const page = usePage<PageProps>();
     const user = computed(() => page.props.auth.user);
 
     function createPost(){
-        content.value = null;
-        contentDiv.value.innerText = '';
+         content.value = null
+
+        if (contentDiv.value) {
+            contentDiv.value.innerText = ''
+        }
 
         formData.post(route('posts.store'), {
-            onSuccess:(response) => {
-                const data = {
-                    ...response.props.data.original.post,
-                    user: user
-                };
-                emit('success', {'success' : true, 'data': data});
-            },
-            onError: () => {
+            onSuccess: (page) => {
+                if (!hasCreatePostData(page.props)) {
+                    emit('error')
+                    return
+                }
 
+                const post: Post = {
+                    ...page.props.data.original.post,
+
+                    likes_count: 0,
+                    liked_by_me: false,
+                    comments_count: 0,
+                    reposts_count: 0,
+                    reposted_by_me: false,
+
+                    user: user.value,
+                }
+
+                emit('success', { success: true, data: post })
             },
-            // onFinish: () => {
-            // },
-            preserveUrl:true
+            preserveUrl: true,
         })
     }
 </script>

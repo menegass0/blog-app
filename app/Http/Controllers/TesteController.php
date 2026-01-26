@@ -9,7 +9,7 @@ class TesteController extends Controller
 {
     public function index()
     {
-        dd(Auth::user());
+        dd(request()->isSecure());
 
         // $myPosts = DB::table('posts')
         //     ->where('user_id', $userId)

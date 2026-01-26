@@ -28,16 +28,25 @@
 
             <div class="mt-auto border-t border-neutral-300 lg:w-full pt-4">
                 <div class="flex gap-3 mb-6">
-                    <div class="bg-blue-200 flex items-center justify-center w-[48px] h-[48px] rounded-full">
+                    <div class="bg-blue-200 flex items-center justify-center w-[48px] h-[48px] rounded-full shrink-0">
                         <i class="fas fa-user"></i>
                     </div>
-                    <div class="hidden lg:flex flex-col overflow-hidden">
-                        <div v-if="user" class="">
-                            <strong class=" text-ellipsis">{{ user.name }}</strong>
-                            <p class="text-ellipsis">@{{ user.slug }}</p>
+                    <div class="hidden lg:flex flex-col min-w-0">
+                        <div v-if="user">
+                            <strong class="block truncate">
+                                {{ user.name }}
+                            </strong>
+                            <p class="block truncate text-neutral-600">
+                                @{{ user.slug }}
+                            </p>
                         </div>
+
                         <div v-else>
-                            <Link :href="route('login.index')"><Button class="rounded-full! border border-neutral-400 px-8  hover:bg-orange-600 hover:text-white">Entrar</Button></Link>
+                            <Link :href="route('login.index')">
+                                <Button class="rounded-full! border border-neutral-400 px-8 hover:bg-orange-600 hover:text-white">
+                                    Entrar
+                                </Button>
+                            </Link>
                         </div>
                     </div>
                 </div>

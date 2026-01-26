@@ -40,16 +40,16 @@
         </header>
         <div class="p-6">
             <div class="flex gap-4 mb-3">
-                <div class="bg-blue-200 flex items-center justify-center w-[60px] h-[60px] rounded-full">
+                <Link :href="route('users.show', {user: post.user.slug})" class="bg-blue-200 flex items-center justify-center w-[60px] h-[60px] rounded-full">
                     <i class="fas fa-user"></i>
-                </div>
+                </Link>
                 <div class="hidden lg:flex flex-col">
-                    <strong class="text-2xl">{{ post.user.name }}</strong>
-                    <p>@{{ post.user.slug }}</p>
+                    <Link :href="route('users.show', {user: post.user.slug})" class="text-2xl font-semibold text-ellipsis">{{ post.user.name }}</Link>
+                    <Link :href="route('users.show', {user: post.user.slug})" class="text-neutral-600 text-xl" >@{{ post.user.slug }}</Link>
                 </div>
             </div>
             <div class="w-full pb-3">
-                <p class="text-2xl mb-3">
+                <p class="text-2xl mb-3 break-all">
                     {{ post.text }}
                 </p>    
                 <div class="flex gap-1 text-neutral-500">
