@@ -2,17 +2,24 @@
     import { Link, useForm, usePage } from '@inertiajs/vue3';
     import Button from '../components/ui/Button.vue';
     import PostCard from '../components/cards/PostCard.vue';
-    import { ref, watch } from 'vue';
+    import { computed, ref, watch } from 'vue';
     import BaseLayout from '../layouts/BaseLayout.vue';
+    import { PageProps } from '../types/inertia';
+    import { Post } from '../types/Post';
 
+    const page = usePage<PageProps>();
+    const authUser = computed(() => page.props.auth.user);
 
     const props = defineProps<{
         user: any
-        posts: any
+        posts?: {
+            data: Post []
+        }
         total_posts: number
     }>()
 
-    console.log(props.posts.data);
+    const posts = computed(() => props.posts?.data ?? [])
+    const isLoaded = computed(() => !!props.posts)
 
 </script>
 
@@ -20,8 +27,8 @@
     <BaseLayout>
         <header class="border-b border-neutral-300 flex items-center gap-6 p-4">
             <Link :href="route('feed.index')" class="p-3 rounded-full hover:bg-neutral-200"><i class="fas fa-arrow-left  text-2xl"></i></Link>
-            <div class="flex flex-col">
-                <h1 class="text-3xl font-bold">{{ user.name }}</h1>
+            <div class="flex flex-col min-w-0 max-w-full">
+                <h1 class="text-3xl font-bold truncate">{{ user.name }}</h1>
                 <p>{{ total_posts }} posts</p>
             </div>
         </header>
@@ -30,17 +37,18 @@
                 <!-- banner pic to add later -->
             </header>
             <div class="p-6 relative">
-                <div class="top-[-100] absolute flex items-center justify-center h-[200px] w-[200px] bg-neutral-200 rounded-full">
-                    <i class="fas fa-user fa-4x"></i>
+                <div class="top-[-80] md:top-[-100] absolute flex items-center justify-center h-[150px] w-[150px] md:h-[200px] md:w-[200px] bg-neutral-200 rounded-full">
+                    <i class="fas fa-user text-4xl md:text-6xl"></i>
                 </div>
-                <div class="flex w-full justify-end">
+                <div v-if="authUser.slug !== props.user.slug" class="flex w-full justify-end">
                     <Button class="rounded-full! font-semibold border border-neutral-400 px-6 hover:bg-orange-600 hover:text-white hover:border-transparent">Seguir</Button>
                 </div>
+                <div class="h-[50px] w-full" v-else></div>
             </div>
 
-            <div class="p-6">
-                <strong class="text-2xl">{{ user.name }}</strong>
-                <p class="text-2xl text-neutral-600">@{{ user.slug }}</p>
+            <div class="p-6 max-w-full min-w-0 flex flex-col">
+                <strong class="text-2xl break-all">{{ user.name }}</strong>
+                <p class="text-2xl text-neutral-600 break-all">@{{ user.slug }}</p>
             </div>
 
             <div class="px-6">
@@ -55,8 +63,8 @@
                 <Button class="w-full font-semibold rounded-none! hover:bg-neutral-200">Curtidas</Button>
             </div>
 
-            <div class="">
-                <div v-for="post in posts.data" >
+            <div v-if="isLoaded">
+                <div v-for="post in posts" >
                     <PostCard class="border-b border-neutral-400" :post="post" />
                 </div>
             </div>

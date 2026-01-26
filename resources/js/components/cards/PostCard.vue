@@ -54,13 +54,13 @@
             <div class="flex flex-col w-full min-w-0" >
                 <div class="w-full flex gap-2 items-start justify-between mb-2 min-w-0">
                     <div class="flex gap-2 w-full min-w-0">
-                        <Link
+                        <Link :href="post.user.slug"
                             class="text-xl font-semibold max-w-5/8 truncate hover:underline"
                         >
                             {{ post.user.name }}
                         </Link>
 
-                        <Link
+                        <Link :href="post.user.slug"
                             class="text-xl text-neutral-600 max-w-1/5 truncate"
                         >
                             @{{ post.user.slug }}

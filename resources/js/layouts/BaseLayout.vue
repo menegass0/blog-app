@@ -9,9 +9,9 @@
 </script>
 
 <template>
-    <div class="flex w-full min-h-screen">
+    <div class="flex min-h-screen">
         <SideBar />
-        <main class="md:w-full bg-white lg:max-w-[850px]">
+        <main class="w-screen md:w-full bg-white lg:max-w-[850px]">
             <Modal v-if="showModal" @close="showModal = false" />
             <slot @show.modal="showModal = true"></slot>
         </main>

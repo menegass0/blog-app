@@ -11,7 +11,7 @@
 
 
 <template>
-    <aside class="flex sticky top-0 max-h-screen justify-end w-30 lg:w-140 border-r-2 border-neutral-300">
+    <aside class="sm:flex sticky hidden top-0 max-h-screen justify-end w-30 lg:w-140 border-r-2 border-neutral-300">
         <div class="max-w-[350px] w-full flex flex-col gap-3 px-3 lg:pl-5 lg:pr-10 pt-6 pb-12 items-center xl:items-start">
             <header class="flex items-center justify-center lg:justify-start w-full gap-3 mb-6">
                 <div class="gradient-bg p-2 rounded-lg">

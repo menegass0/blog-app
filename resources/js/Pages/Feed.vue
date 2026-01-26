@@ -15,7 +15,6 @@
         }
     }>()
 
-
     const posts = computed(() => props.posts?.data ?? [])
     const isLoaded = computed(() => !!props.posts)
 

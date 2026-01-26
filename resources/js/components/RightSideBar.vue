@@ -8,7 +8,7 @@
 
 
 <template>
-    <aside class="hidden lg:flex sticky top-0 max-h-screen justify-start w-200 border-l border-neutral-300 bg-white">
+    <aside class="hidden xl:flex sticky top-0 max-h-screen justify-start w-200 border-l border-neutral-300 bg-white">
         <div class="max-w-[450px] p-6 w-full">
             <div class="relative mb-6">
                 <i className="fa-solid fa-search absolute left-3 top-6/12 -translate-y-1/2 w-5 h-5 text-neutral-600 text-xl" />
