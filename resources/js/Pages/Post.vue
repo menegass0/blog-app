@@ -1,15 +1,11 @@
 <script setup lang="ts">
-    import { Link, useForm, usePage } from '@inertiajs/vue3';
-    import { computed, ref } from 'vue';
+    import { Link, useForm } from '@inertiajs/vue3';
     import InteractionButton from '../components/buttons/InteractionButton.vue';
     import { getFullDate, getHourAMPM } from '../services/time';
     import BaseLayout from '../layouts/BaseLayout.vue';
-    import { PageProps } from '../types/inertia';
     import { Post } from '../types/Post';
+    import { ref } from 'vue';
 
-    // const page = usePage<PageProps>();
-    // const user = computed(() => page.props.auth.user);
-    
     const props = defineProps<{
         post : Post
      }>()

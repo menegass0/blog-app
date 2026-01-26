@@ -13,11 +13,11 @@
                     <div class="text-center flex items-center justify-center rounded-lg p-3 h-10 w-10 gradient-bg">
                         <i class="fas fa-eye text-white"></i>
                     </div>
-                    <h2 class="text-3xl font-bold">Conecta</h2>
+                    <h2 class="text-3xl font-bold hidden md:block">Conecta</h2>
                 </div>
 
                 <div class="flex gap-3 items-center">
-                    <Link class="btn py-2 px-5 font-semibold bg-white">Entrar</Link>
+                    <Link :href="route('login.index')" class="btn py-2 px-5 font-semibold bg-white">Entrar</Link>
                     <Link :href="route('signup.index')" class="btn gradient-bg px-5 py-2 whitespace-nowrap rounded-lg text-white font-semibold">Comece Agora <i class="ms-3 fas fa-arrow-right"></i></Link>
                 </div>
             </nav>
@@ -25,9 +25,9 @@
             <div class="max-w-4xl mx-auto text-center">
                 <h1 class="text-6xl md:text-7xl font-bold mb-6">Sua nova forma de <span class="gradient-text">se conectar</span></h1>
                 <p class="text-xl mx-auto max-w-2xl text-muted mb-10">Uma rede social moderna onde você pode compartilhar suas ideias, descobrir conteúdos incriveis e construir conexões significativas</p>
-                <div class="flex justify-center gap-4 text-xl">
+                <div class="hidden md:flex justify-center gap-4 text-xl">
                     <Link :href="route('signup.index')" class="btn gradient-bg px-5 py-2 whitespace-nowrap rounded-lg text-white font-semibold">Comece Agora <i class="ms-3 fas fa-arrow-right"></i></Link>
-                    <Link class="btn py-2 px-5 font-semibold bg-white">já tenho conta</Link>
+                    <Link :href="route('login.index')" class="btn py-2 px-5 font-semibold bg-white">já tenho conta</Link>
                 </div>
             </div>
         </div>

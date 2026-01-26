@@ -15,8 +15,19 @@
         }
     }>()
 
-    const posts = computed(() => props.posts?.data ?? [])
-    const isLoaded = computed(() => !!props.posts)
+    const posts = ref<Post[]>([])
+    const isLoaded = ref(false)
+
+    watch(
+        () => props.posts,
+        (postsProp) => {
+            if (postsProp?.data) {
+                posts.value = [...postsProp.data]
+                isLoaded.value = true
+            }
+        },
+        { immediate: true }
+    )
 
     const addPost = (payload: any) => {
         let post = payload.data;

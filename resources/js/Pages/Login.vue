@@ -2,7 +2,7 @@
     import { Form, Link, useForm } from '@inertiajs/vue3';
     import Input from '../components/ui/Input.vue';
     import { ref } from 'vue';
-    import { LoginForm } from '../services/auth/login';
+    import { LoginForm } from '../types/login';
     import Button from '../components/ui/Button.vue';
     import FormErrors from '../components/ui/FormErrors.vue';
 
@@ -33,7 +33,7 @@
             </div>
         </div>
         <div class="w-full lg:w-1/2 flex items-center justify-center bg-neutral-100">
-            <div class="w-full max-w-md">
+            <div class="w-full max-w-md px-6">
                 <div class="text-center mb-6">
                     <h3 class="text-3xl font-semibold mb-3">Crie Sua Conta</h3>
                     <p class="text-muted-foreground">Junte-se à nossa comunidade hoje</p>   

@@ -6,9 +6,9 @@
     import BaseLayout from '../layouts/BaseLayout.vue';
     import { PageProps } from '../types/inertia';
     import { Post } from '../types/Post';
+import { useAuth } from '../services/auth';
 
-    const page = usePage<PageProps>();
-    const authUser = computed(() => page.props.auth.user);
+    const { user : authUser } = useAuth();
 
     const props = defineProps<{
         user: any

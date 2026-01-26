@@ -1,11 +1,12 @@
 <script setup lang="ts">
-    import { computed, ref } from 'vue';
+    import { ref } from 'vue';
     import Card from './Card.vue';
     import Button from '../ui/Button.vue'
     import { Form, useForm, usePage } from '@inertiajs/vue3';
     import type { Post } from '../../types/Post'
     import type { PageProps } from '../../types/inertia'
     import {hasCreatePostData } from '../../types/responses';
+    import { useAuth } from '../../services/auth';
 
     const contentDiv = ref<HTMLDivElement | null>(null)
     const content = ref<string | null>(null)
@@ -33,7 +34,7 @@
     })
 
     const page = usePage<PageProps>();
-    const user = computed(() => page.props.auth.user);
+    const { user } = useAuth()
 
     function createPost(){
          content.value = null

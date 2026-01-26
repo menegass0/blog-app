@@ -1,15 +1,11 @@
 <script setup>
-    import { Link, usePage } from '@inertiajs/vue3';
-    import { computed } from 'vue';
+    import { Link } from '@inertiajs/vue3';
     import SidebarButton from '../components/buttons/SidebarButton.vue'
     import Button from './ui/Button.vue';
+    import { useAuth } from '../services/auth';
 
-    const page = usePage();
-
-    const user = computed(() => page.props.auth.user)
+    const { user, isLoggedIn } = useAuth();
 </script>
-
-
 <template>
     <aside class="sm:flex sticky hidden top-0 max-h-screen justify-end w-30 lg:w-140 border-r-2 border-neutral-300">
         <div class="max-w-[350px] w-full flex flex-col gap-3 px-3 lg:pl-5 lg:pr-10 pt-6 pb-12 items-center xl:items-start">
@@ -20,7 +16,7 @@
                 <h1 class="gradient-text text-3xl font-bold hidden lg:block">Conecta</h1>
             </header>
 
-            <div v-if="user" class="w-full">
+            <div v-if="isLoggedIn" class="w-full">
                 <SidebarButton title="Perfil" class="" icon="fas fa-user" :href="route('users.show', {user: user.slug})"/>
             </div>
             <!-- <SidebarButton title="Home" class="" icon="fa-regular fa-home" href="test"/> -->
@@ -32,7 +28,7 @@
                         <i class="fas fa-user"></i>
                     </div>
                     <div class="hidden lg:flex flex-col min-w-0">
-                        <div v-if="user">
+                        <div v-if="isLoggedIn">
                             <strong class="block truncate">
                                 {{ user.name }}
                             </strong>
@@ -50,7 +46,7 @@
                         </div>
                     </div>
                 </div>
-                <div v-if="user">
+                <div v-if="isLoggedIn">
                     <Link href="/logout" class="w-full flex gap-3 p-3 items-center hover:bg-neutral-200 hover:text-red-500 rounded-lg">
                         <i class=" fa-solid fa-arrow-right-from-bracket"></i>
                         <p class="hidden lg:block">Sair</p>
