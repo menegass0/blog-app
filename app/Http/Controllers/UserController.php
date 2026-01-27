@@ -15,39 +15,57 @@ class UserController extends Controller
     {
         $user = User::where('slug', $slug)->firstOrFail();
 
-        $feed = Post::query()
-            ->where(function ($q) use ($user) {
-                $q->where('user_id', $user->id) // my own posts
-                    ->orWhereHas(
-                        'reposts',
-                        fn($rq) =>
-                        $rq->where('user_id', $user->id) // posts I reposted
-                    );
-            })
-            ->with([
-                'user:id,name,slug',
-                'reposts' => fn($q) =>
-                $q->where('user_id', $user->id)->select('id', 'user_id', 'post_id', 'created_at'),
-            ])
-            ->withCount([
-                'likes as likes',
-                'reposts as reposts',
-            ])
+        $postsQuery = Post::query()
+            ->where('user_id', $user->id)
+            ->selectRaw("
+            posts.id as feed_id,
+            posts.id as post_id,
+            posts.user_id as actor_id,
+            posts.created_at as feed_created_at,
+            'post' as feed_type
+        ");
+
+        $repostsQuery = Repost::query()
+            ->where('user_id', $user->id)
+            ->selectRaw("
+                reposts.id as feed_id,
+                reposts.post_id as post_id,
+                reposts.user_id as actor_id,
+                reposts.created_at as feed_created_at,
+                'repost' as feed_type
+            ");
+
+        $feed = $postsQuery
+            ->unionAll($repostsQuery)
+            ->orderBy('feed_created_at', 'desc')
+            ->paginate(10);
+
+        $postIds = $feed->pluck('post_id')->unique();
+        $actorIds = $feed->pluck('actor_id')->unique();
+
+        $posts = Post::whereIn('id', $postIds)
+            ->with(['user:id,name,slug'])
+            ->withCount(['likes', 'reposts'])
             ->withExists([
                 'likes as liked_by_me' => fn($q) =>
                 $q->where('user_id', Auth::id()),
-
                 'reposts as reposted_by_me' => fn($q) =>
                 $q->where('user_id', Auth::id()),
             ])
-            ->orderByRaw('
-                COALESCE(
-                    (select created_at from reposts where reposts.post_id = posts.id and reposts.user_id = ? limit 1),
-                    posts.created_at
-                ) desc
-            ', [$user->id])
+            ->get()
+            ->keyBy('id');
 
-            ->paginate(6);
+        $actors = User::whereIn('id', $actorIds)
+            ->select('id', 'name', 'slug')
+            ->get()
+            ->keyBy('id');
+
+
+        $feed->getCollection()->transform(function ($item) use ($posts, $actors) {
+            $item->post = $posts[$item->post_id] ?? null;
+            $item->actor = $actors[$item->actor_id] ?? null;
+            return $item;
+        });
 
         return Inertia::render('Profile', [
             'user' => $user,

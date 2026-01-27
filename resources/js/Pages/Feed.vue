@@ -1,17 +1,15 @@
 <script setup lang="ts">
     import NewPostCard from '../components/cards/NewPostCard.vue';
     import PostCard from '../components/cards/PostCard.vue';
-    import SideBar from '../components/SideBar.vue';
-    import RightSideBar from '../components/RightSideBar.vue'
     import { Deferred } from '@inertiajs/vue3'
-    import { computed, ref, watch } from 'vue';
+    import {  ref, watch } from 'vue';
     import BaseLayout from '../layouts/BaseLayout.vue';
-    import { Post } from '../types/Post';
+    import { FeedItem, User } from '../types/Post';
 
 
     const props = defineProps<{
         posts?: {
-            data: Post[]
+            data: FeedItem[]
         }
     }>()
 
@@ -53,8 +51,8 @@
                 </Deferred>
             </div>
             <div v-else class="flex flex-col w-full">
-                <div v-for="post in posts" :key="post.id">
-                    <PostCard class="border-b border-neutral-400" :post="post" />
+                <div v-for="post in posts" :key="post.post_id">
+                    <PostCard class="border-b border-neutral-400" :feedItem="post" />
                 </div>
             </div>
         </div>

@@ -18,3 +18,16 @@ export interface Post {
 
     user: User
 }
+
+export interface FeedItem {
+    actor: {
+        id: number
+        name: number
+        slug: string
+    }
+    feed_created_at: string
+    feed_id: number
+    feed_type: 'post' | 'repost' | 'quote' | 'comment'
+    post_id: number
+    post: Post
+}

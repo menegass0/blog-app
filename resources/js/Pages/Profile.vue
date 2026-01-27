@@ -5,15 +5,15 @@
     import { computed, ref, watch } from 'vue';
     import BaseLayout from '../layouts/BaseLayout.vue';
     import { PageProps } from '../types/inertia';
-    import { Post } from '../types/Post';
-import { useAuth } from '../services/auth';
+    import { FeedItem } from '../types/Post';
+    import { useAuth } from '../services/auth';
 
     const { user : authUser } = useAuth();
 
     const props = defineProps<{
         user: any
         posts?: {
-            data: Post []
+            data: FeedItem[]
         }
         total_posts: number
     }>()
@@ -64,8 +64,8 @@ import { useAuth } from '../services/auth';
             </div>
 
             <div v-if="isLoaded">
-                <div v-for="post in posts" >
-                    <PostCard class="border-b border-neutral-400" :post="post" />
+                <div v-for="post in posts" :key="post.post_id">
+                    <PostCard class="border-b border-neutral-400" :feedItem="post" />
                 </div>
             </div>
         </div>
